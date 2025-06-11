@@ -26,3 +26,8 @@ override.tf.json
 .vscode/
 *.bak
 *.tmp
+
+# Ignore monitoring/alert-manager/email-secret.yaml file
+monitoring/alert-manager/email-secret.yaml
+# Ignore monitoring/alert-manager/sendgrid-secret.yaml file
+monitoring/alert-manager/sendgrid-secret.yaml

@@ -1,0 +1,38 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: my-app-alert-rules-config
+  namespace: monitoring
+spec:
+  route:
+    receiver: 'null' # 'email'
+    repeatInterval: 30m
+    routes:
+    - matchers:
+      - name: 'alertname'
+        value: 'HostHighCpuLoad'
+    - matchers:
+      - name: 'alertname'
+        value: 'KubernetesPodCrashLooping' 
+      repeatInterval: 5m    
+  receivers:
+  - name: 'email'
+    emailConfigs:
+    - to: 'ozblech87@gmail.com'
+      from: 'ozblech87@gmail.com'
+      smarthost: 'smtp.gmail.com:587'
+      authUsername: 'ozblech87@gmail.com'
+      authIdentity: 'ozblech87@gmail.com'
+      authPassword: 
+        name: email-secret
+        key: password
+  - name: 'sendgrid-email' # I don't have sengrid free account, so I can't test this
+    emailConfigs:
+      - to: 'ozblech87@gmail.com'
+        from: '7391987@gmail.com'
+        smarthost: 'smtp.sendgrid.net:587'
+        authUsername: 'apikey'  # This must literally be "apikey"
+        authPassword:
+          name: sendgrid-api-key
+          key: key
+
