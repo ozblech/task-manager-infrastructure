@@ -1,0 +1,8 @@
+serviceMonitor:
+  enabled: true
+  additionalLabels:
+    release: monitoring
+
+mongodb:
+  uri: "mongodb://root:rootpassword@my-app-mongodb:27017/myappdb?authSource=admin"
+
