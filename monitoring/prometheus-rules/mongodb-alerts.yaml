@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: mongodb-alerts
+  labels:
+    app: kube-prometheus-stack
+    release: monitoring
+spec:
+  groups:
+  - name: mongodb.rules
+    rules:
+    - alert: MongodbDown
+      expr: mongodb_up == 0
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: MongoDB Down (instance {{ $labels.instance }})
+        description: "MongoDB instance is down\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    
+    - alert: MongodbTooManyConnections
+      expr: mongodb_connections > 100
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: MongoDB too many connections (instance {{ $labels.instance }})
+        description: "MongoDB has more than 100 connections\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

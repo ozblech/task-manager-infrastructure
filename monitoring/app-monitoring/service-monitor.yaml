@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: my-app-service-monitor
+  labels:
+    app: my-app
+    release: monitoring
+spec:
+  endpoints:
+  - path: /metrics
+    port: task-manager-service
+    targetPort: 3000
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      app: task-manager-api
